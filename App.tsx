@@ -5,12 +5,12 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import BuildTraining from './screens/BuildTraining';
-import ExerciseInfo from './screens/ExerciseInfo';
+import ReadyTrainings from './screens/ReadyTrainings';
 
-const Stack = createStackNavigator();
+const Navigator = createDrawerNavigator();
 
 export default class App extends React.Component<any, any> {
 
@@ -37,12 +37,10 @@ export default class App extends React.Component<any, any> {
 
     return (
       <NavigationContainer>
-        <Container>
-          <Stack.Navigator>
-            <Stack.Screen name="Собрать тренировку" component={BuildTraining} />
-            <Stack.Screen name="Детали" component={ExerciseInfo} />
-          </Stack.Navigator>
-        </Container>
+        <Navigator.Navigator>
+          <Navigator.Screen name="Собрать тренировку" component={BuildTraining} />
+          <Navigator.Screen name="Собранные тренировки" component={ReadyTrainings} />
+        </Navigator.Navigator>
       </NavigationContainer>
     );
   }

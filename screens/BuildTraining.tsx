@@ -6,6 +6,9 @@ import { Container, Header, Title, Content, Footer, FooterTab,
  } from 'native-base';
 import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
+import SideBar from './SideBar';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 export default class BuildTraining extends React.Component<any, any> {
   constructor(props: any) {
@@ -14,34 +17,34 @@ export default class BuildTraining extends React.Component<any, any> {
       selectedExercises: List([])
     };
     this.onToggleExercise = this.onToggleExercise.bind(this);
+    this.buildTraining = this.buildTraining.bind(this);
+  }
+
+  async buildTraining() {
+    const value = await AsyncStorage.getItem('readyTrainings');
+    await AsyncStorage.setItem('readyTrainings', JSON.stringify([this.state.selectedExercises]));
+    this.props.navigation.navigate('Собранные тренировки');
   }
 
   onToggleExercise(exercise: IExercise) {
     const selectedExercises = this.state.selectedExercises;
-    if (selectedExercises.includes(exercise.name)) {
+    if (selectedExercises.includes(exercise.key)) {
       return this.setState({
-        selectedExercises: selectedExercises.filter((e:string) => e !== exercise.name)
+        selectedExercises: selectedExercises.filter((e:string) => e !== exercise.key)
       });
     }
     this.setState({
-      selectedExercises: selectedExercises.push(exercise.name)
+      selectedExercises: selectedExercises.push(exercise.key)
     });
   }
 
   render() {
     return (
       <Container>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Собрать тренировку</Title>
-          </Body>
-          <Right />
-        </Header>
+        <SideBar
+          title={this.props.route.name}
+          navigation={this.props.navigation}
+        />
         <Content>
           <Card>
             <NativeList>
@@ -50,14 +53,14 @@ export default class BuildTraining extends React.Component<any, any> {
                   <ListItem itemDivider>
                     <Text>{muscleGroup}</Text>
                   </ListItem>
-                  {Exercises.filter(ex => ex.groups.includes(muscleGroup)).map((exercise, index) => (
-                    <ListItem key={index}>
+                  {Exercises.filter(ex => ex.groups.includes(muscleGroup)).map(exercise => (
+                    <ListItem key={exercise.key} onPress={() => this.onToggleExercise(exercise)}>
                       <CheckBox
-                        checked={this.state.selectedExercises.includes(exercise.name)}
                         onPress={() => this.onToggleExercise(exercise)}
+                        checked={this.state.selectedExercises.includes(exercise.key)}
                       />
                       <Body>
-                        <Text onPress={() => this.props.navigation.navigate('Детали')}>{exercise.name}</Text>
+                        <Text>{exercise.name}</Text>
                       </Body>
                     </ListItem>
                   ))}
@@ -69,7 +72,7 @@ export default class BuildTraining extends React.Component<any, any> {
         <Footer>
           <FooterTab>
             <Button full>
-              <Text>Создать</Text>
+              <Text onPress={this.buildTraining}>Создать</Text>
             </Button>
           </FooterTab>
         </Footer>
