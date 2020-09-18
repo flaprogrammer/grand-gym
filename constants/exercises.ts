@@ -1,7 +1,9 @@
 export enum muscleGroups {
   chest = 'Грудь',
   legs = 'Ноги',
-  back = 'Спина'
+  back = 'Спина',
+  deltas = 'Дельты',
+  press = 'Пресс'
 }
 
 export interface IExercise {
@@ -16,20 +18,12 @@ export const Exercises: IExercise[] = [
     name: 'Жим штанги на горизонтальной скамье',
     groups: [muscleGroups.chest]
   }, {
-    key: 'zhim-shtangi-minus-45',
-    name: 'Жим штанги под -45°',
-    groups: [muscleGroups.chest]
-  }, {
     key: 'zhim-shtangi-smit-horizontal',
     name: 'Жим штанги на Смите на горизонтальной',
     groups: [muscleGroups.chest]
   }, {
     key: 'zhim-shtangi-smit-45',
     name: 'Жим штанги на Смите под 45°',
-    groups: [muscleGroups.chest]
-  }, {
-    key: 'zhim-shtangi-smit-minus-45',
-    name: 'Жим штанги на Смите под -45°',
     groups: [muscleGroups.chest]
   }, {
     key: 'zhim-ganteley-horizontal',
@@ -52,6 +46,18 @@ export const Exercises: IExercise[] = [
     name: 'Разведение гантелей под -45°',
     groups: [muscleGroups.chest]
   }, {
+    key: 'svedenie-ruk-krossover',
+    name: 'Сведение рук на кроссовере',
+    groups: [muscleGroups.chest]
+  }, {
+    key: 'zhim-shtangi-stoya',
+    name: 'Жим штанги стоя',
+    groups: [muscleGroups.deltas]
+  }, {
+    key: 'podnimanie-nog-visya',
+    name: 'Поднимание ног вися',
+    groups: [muscleGroups.press]
+  }, {
     key: 'prisedaniya-shtanga',
     name: 'Приседания со штангой',
     groups: [muscleGroups.legs]
@@ -59,5 +65,5 @@ export const Exercises: IExercise[] = [
     key: 'podtyagivaniya',
     name: 'Подтягивания',
     groups: [muscleGroups.back]
-  },
+  }
 ];

@@ -11,15 +11,12 @@ import * as store from '../services/store';
 import { ITraining } from '../constants/trainings';
 
 
-export default class ReadyTrainings extends React.Component<any, any> {
+export default class FinishedTrainings extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       trainings: []
     };
-
-    this.deleteTraining = this.deleteTraining.bind(this);
-    this.onPageFocus = this.onPageFocus.bind(this);
   }
 
   async componentDidMount() {
@@ -29,13 +26,7 @@ export default class ReadyTrainings extends React.Component<any, any> {
   }
 
   async onPageFocus() {
-    const trainings:ITraining[] = await store.getReadyTrainings();
-    this.setState({ trainings });
-  }
-
-  async deleteTraining(id: string) {
-    await store.deleteTraining(id);
-    const trainings:ITraining[] = await store.getReadyTrainings();
+    const trainings:ITraining[] = await store.getFinishedTrainings();
     this.setState({ trainings });
   }
 
@@ -55,9 +46,6 @@ export default class ReadyTrainings extends React.Component<any, any> {
                   <Body>
                     <Text>Список тренировок пуст</Text>
                   </Body>
-                  <Button onPress={() => this.props.navigation.navigate('Собрать тренировку')}>
-                    <Text>Создать новую</Text>
-                  </Button>
                 </Card>
               ) :
               trainings.map((training: ITraining) => (
@@ -68,16 +56,7 @@ export default class ReadyTrainings extends React.Component<any, any> {
                         .map((exKey) => Exercises.filter(e => e.key === exKey).map(e => e.name))
                         .join(', ')
                       }</Text>
-                      <Button onPress={() => this.props.navigation.navigate('Тренировки', {
-                        screen: 'Тренировка',
-                        params: { id: training.id }
-                      })}>
-                        <Text>Начать</Text>
-                      </Button>
                     </Body>
-                    <Right>
-                      <Icon name="trash" onPress={() => this.deleteTraining(training.id)}/>
-                    </Right>
                   </ListItem>
                 </Card>
               ))}

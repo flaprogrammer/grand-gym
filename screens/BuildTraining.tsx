@@ -21,7 +21,7 @@ export default class BuildTraining extends React.Component<any, any> {
 
   async buildTraining() {
     await store.addTraining(this.state.selectedExercises);
-    this.props.navigation.navigate('Собранные тренировки');
+    this.props.navigation.navigate('Тренировки', { screen: 'Собранные тренировки' });
   }
 
   onToggleExercise(exercise: IExercise) {

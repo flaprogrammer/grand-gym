@@ -1,4 +1,6 @@
 export interface ITraining {
   id: string,
-  exercises: string[]
+  exercises: string[],
+  results?: object,
+  date?: Date
 }
