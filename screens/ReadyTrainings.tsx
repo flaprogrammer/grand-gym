@@ -7,29 +7,41 @@ import { Container, Header, Title, Content, Footer, FooterTab,
 import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
 import SideBar from './SideBar';
-import AsyncStorage from '@react-native-community/async-storage';
+import * as store from '../services/store';
+import { ITraining } from '../constants/trainings';
+
 
 export default class ReadyTrainings extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      trainings: List([])
+      trainings: []
     };
+
+    this.deleteTraining = this.deleteTraining.bind(this);
+    this.onPageFocus = this.onPageFocus.bind(this);
   }
 
   async componentDidMount() {
-    const trainingsString: string | null = await AsyncStorage.getItem('readyTrainings');
-    let trainings;
-    if (trainingsString != null) {
-      trainings = JSON.parse(trainingsString);
-    }
+    this.props.navigation.addListener('focus', () => {
+      this.onPageFocus();
+    });
+  }
+
+  async onPageFocus() {
+    const trainings:ITraining[] = await store.getTrainings();
     this.setState({ trainings });
   }
 
+  async deleteTraining(id: string) {
+    await store.deleteTraining(id);
+    const trainings:ITraining[] = await store.getTrainings();
+    this.setState({ trainings });
+  }
 
   render() {
 
-    const { trainings } = this.state;
+    let trainings: ITraining[] = this.state.trainings;
     return (
       <Container>
         <SideBar
@@ -37,17 +49,33 @@ export default class ReadyTrainings extends React.Component<any, any> {
           navigation={this.props.navigation}
         />
         <Content>
-          <Card>
             <NativeList>
-              {trainings.map((training: string, index: number) => (
-                <ListItem key={index}>
+              {!trainings || !trainings.length ? (
+                <Card>
                   <Body>
-                    <Text>Первое</Text>
+                    <Text>Список тренировок пуст</Text>
                   </Body>
-                </ListItem>
+                  <Button onPress={() => this.props.navigation.navigate('Собрать тренировку')}>
+                    <Text>Создать новую</Text>
+                  </Button>
+                </Card>
+              ) :
+              trainings.map((training: ITraining) => (
+                <Card key={training.id}>
+                  <ListItem>
+                    <Body>
+                      <Text>{training.exercises
+                        .map((exKey) => Exercises.filter(e => e.key === exKey).map(e => e.name))
+                        .join(', ')
+                      }</Text>
+                    </Body>
+                    <Right>
+                      <Icon name="trash" onPress={() => this.deleteTraining(training.id)}/>
+                    </Right>
+                  </ListItem>
+                </Card>
               ))}
             </NativeList>
-          </Card>
         </Content>
       </Container>
     );

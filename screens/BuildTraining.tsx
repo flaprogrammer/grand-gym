@@ -7,8 +7,7 @@ import { Container, Header, Title, Content, Footer, FooterTab,
 import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
 import SideBar from './SideBar';
-import AsyncStorage from '@react-native-community/async-storage';
-
+import * as store from '../services/store';
 
 export default class BuildTraining extends React.Component<any, any> {
   constructor(props: any) {
@@ -21,8 +20,7 @@ export default class BuildTraining extends React.Component<any, any> {
   }
 
   async buildTraining() {
-    const value = await AsyncStorage.getItem('readyTrainings');
-    await AsyncStorage.setItem('readyTrainings', JSON.stringify([this.state.selectedExercises]));
+    await store.addTraining(this.state.selectedExercises);
     this.props.navigation.navigate('Собранные тренировки');
   }
 
