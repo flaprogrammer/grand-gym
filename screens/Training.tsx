@@ -49,6 +49,7 @@ export default class Training extends React.Component<any, any> {
 
   async finishTraining() {
     await store.finishTraining(this.state.training.id);
+    this.props.navigation.navigate('Законченные тренировки');
   }
 
   render() {
