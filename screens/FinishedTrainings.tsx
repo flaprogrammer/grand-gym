@@ -4,6 +4,7 @@ import { Container, Header, Title, Content, Footer, FooterTab,
   Button, Left, Right, Body, Icon, Text, Card, CardItem,
   ListItem, CheckBox, List as NativeList, View
  } from 'native-base';
+import { Alert } from "react-native";
 import { List } from 'immutable';
 import moment from 'moment';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
@@ -19,6 +20,9 @@ export default class FinishedTrainings extends React.Component<any, any> {
     this.state = {
       trainings: []
     };
+
+    this.deleteTraining = this.deleteTraining.bind(this);
+    this.onPageFocus = this.onPageFocus.bind(this);
   }
 
   async componentDidMount() {
@@ -30,6 +34,27 @@ export default class FinishedTrainings extends React.Component<any, any> {
   async onPageFocus() {
     const trainings:IFinishedTraining[] = await store.getFinishedTrainings();
     this.setState({ trainings });
+  }
+
+  async deleteTraining(date: Date) {
+    // Alert.alert(
+    //   'Удалить тренировку?',
+    //   'Удалить тренировку с ' + moment(date).format('DD MMMM YYYY, HH:mm'),
+    //   [
+    //     {
+    //       text: "Отмена",
+    //       style: "cancel"
+    //     },
+    //     { text: "OK", onPress: async () => {
+    //         await store.deleteFinishedTraining(date);
+    //         this.onPageFocus();
+    //       }
+    //     }
+    //   ],
+    //   { cancelable: false }
+    // );
+    await store.deleteFinishedTraining(date);
+    this.onPageFocus();
   }
 
   render() {
@@ -72,6 +97,9 @@ export default class FinishedTrainings extends React.Component<any, any> {
                           )
                         })}
                       </Body>
+                      <Right>
+                        <Icon name="trash" onPress={() => this.deleteTraining(training.date)}/>
+                      </Right>
                     </CardItem>
                   </Card>
                 )

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { ITraining } from '../constants/trainings';
+import { ITraining, IFinishedTraining } from '../constants/trainings';
 
 const READY_TRAININGS = 'readyTrainings';
 const FINISHED_TRAININGS = 'finishedTrainings';
@@ -65,4 +65,11 @@ export async function getFinishedTrainings() {
     return JSON.parse(trainingsString);
   }
   else return [];
+}
+
+export async function deleteFinishedTraining(date: Date) {
+  let finishedTrainings:IFinishedTraining[] = await getFinishedTrainings();
+  finishedTrainings = finishedTrainings || [];
+  finishedTrainings = finishedTrainings.filter(training => training.date !== date);
+  return await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
 }

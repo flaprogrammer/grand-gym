@@ -81,12 +81,52 @@ export const Exercises: IExercise[] = [
     key: 'podnimanie-koleney-shved-stenka',
     name: 'Поднимание коленей на шведской стенке',
     groups: [muscleGroups.press]
+  }, {
+    key: 'skruchivanie-korpusa-na-skamie-45',
+    name: 'Скручивание корпуса на скамье 45°',
+    groups: [muscleGroups.press]
   },
 
   // Ноги
   {
     key: 'prisedaniya-shtanga',
     name: 'Приседания со штангой',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'prisedaniya-gakk-trenajere',
+    name: 'Приседания в Гакк тренажере',
+    groups: [muscleGroups.legs]
+  },  {
+    key: 'prisedaniya-plie',
+    name: 'Приседания плие',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'zhim-nogami-v-trenajere',
+    name: 'Жим ногами в тренажере',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'sgibanie-nog-trenajer',
+    name: 'Сгибание ног на тренажере',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'rasgibanie-nog-trenajer',
+    name: 'Разгибание ног на тренажере',
+    groups: [muscleGroups.legs]
+  },  {
+    key: 'svedenie-nog-na-trenajere',
+    name: 'Сведение ног на тренажере',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'stanovaja-s-gantelyami',
+    name: 'Становая с гантелями',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'ikri-na-trenajere',
+    name: 'Икры на тренажере',
+    groups: [muscleGroups.legs]
+  }, {
+    key: 'vipadi-v-dvijenii',
+    name: 'Выпады в движении',
     groups: [muscleGroups.legs]
   },
 
