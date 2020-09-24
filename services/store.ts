@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { ITraining, IFinishedTraining } from '../constants/trainings';
+import { debounce } from 'debounce';
+
 
 const READY_TRAININGS = 'readyTrainings';
 const FINISHED_TRAININGS = 'finishedTrainings';
@@ -36,6 +38,16 @@ export async function deleteTraining(id: string) {
   return await AsyncStorage.setItem(READY_TRAININGS, JSON.stringify(readyTrainings));
 }
 
+export async function saveTrainingUserWeight(trainingId: string, userWeight: string) {
+  const readyTrainings:ITraining[] = await getReadyTrainings();
+  readyTrainings.forEach(training => {
+    if (training.id === trainingId) {
+      training.userWeight = userWeight;
+    }
+  });
+  await AsyncStorage.setItem(READY_TRAININGS, JSON.stringify(readyTrainings));
+}
+
 export async function saveTrainingResults(trainingId: string, results: any[]) {
   const readyTrainings:ITraining[] = await getReadyTrainings();
   readyTrainings.forEach(training => {
@@ -44,6 +56,10 @@ export async function saveTrainingResults(trainingId: string, results: any[]) {
     }
   });
   await AsyncStorage.setItem(READY_TRAININGS, JSON.stringify(readyTrainings));
+}
+
+export async function saveTrainingResultsDebounced(trainingId: string, results: any[]) {
+  debounce(saveTrainingResults, 2000)(trainingId, results);
 }
 
 export async function finishTraining(trainingId: string) {

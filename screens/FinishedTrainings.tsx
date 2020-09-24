@@ -4,7 +4,7 @@ import { Container, Header, Title, Content, Footer, FooterTab,
   Button, Left, Right, Body, Icon, Text, Card, CardItem,
   ListItem, CheckBox, List as NativeList, View
  } from 'native-base';
-import { Alert } from "react-native";
+import {Alert, StyleSheet} from "react-native";
 import { List } from 'immutable';
 import moment from 'moment';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
@@ -37,24 +37,21 @@ export default class FinishedTrainings extends React.Component<any, any> {
   }
 
   async deleteTraining(date: Date) {
-    // Alert.alert(
-    //   'Удалить тренировку?',
-    //   'Удалить тренировку с ' + moment(date).format('DD MMMM YYYY, HH:mm'),
-    //   [
-    //     {
-    //       text: "Отмена",
-    //       style: "cancel"
-    //     },
-    //     { text: "OK", onPress: async () => {
-    //         await store.deleteFinishedTraining(date);
-    //         this.onPageFocus();
-    //       }
-    //     }
-    //   ],
-    //   { cancelable: false }
-    // );
-    await store.deleteFinishedTraining(date);
-    this.onPageFocus();
+    Alert.alert(
+      'Удалить тренировку?',
+      'Удалить тренировку с ' + moment(date).format('DD MMMM YYYY, HH:mm'),
+      [
+        {
+          text: "Отмена",
+          style: "cancel"
+        },
+        { text: "OK", onPress: async () => {
+            await store.deleteFinishedTraining(date);
+            this.onPageFocus();
+          }
+        }
+      ]
+    );
   }
 
   render() {
@@ -78,8 +75,15 @@ export default class FinishedTrainings extends React.Component<any, any> {
                 const trainingDate = moment(training.date).format('DD MMMM YYYY, HH:mm');
                 return (
                   <Card key={training.id}>
-                    <CardItem header>
-                      <Text>{trainingDate}</Text>
+                    <CardItem>
+                      <Body>
+                      <View>
+                        <Text>{trainingDate}</Text>
+                      </View>
+                      <View>
+                        {training.userWeight && <Text>{training.userWeight} кг</Text>}
+                      </View>
+                      </Body>
                     </CardItem>
                     <CardItem>
                       <Body>
@@ -88,7 +92,10 @@ export default class FinishedTrainings extends React.Component<any, any> {
                           // @ts-ignore
                           if (!training.results[exKey]) return null;
                           // @ts-ignore
-                          const results = training.results[exKey].map(r => `${r.weight} x ${r.amount}`);
+                          const results = training.results[exKey].map(r => {
+                            if (!r) return null;
+                            return `${r.weight} x ${r.amount}`;
+                          });
                           return (
                             <View key={index}>
                               <Text>{name}</Text>
@@ -109,3 +116,21 @@ export default class FinishedTrainings extends React.Component<any, any> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  card: {
+    paddingHorizontal: 5,
+    paddingVertical: 10
+  },
+  exerciseTitle: {
+    paddingLeft: 15,
+    paddingBottom: 15,
+  },
+  exerciseTitleText: {
+    fontWeight: 'bold'
+  },
+  buttonContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 5
+  }
+});
