@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { AppLoading } from 'expo';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Root } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -49,6 +49,7 @@ export default class App extends React.Component<any, any> {
     }
 
     return (
+      <Root>
       <NavigationContainer>
         <Drawer.Navigator>
           <Drawer.Screen name="Собрать тренировку" component={BuildTraining} />
@@ -56,6 +57,7 @@ export default class App extends React.Component<any, any> {
           <Drawer.Screen name="Законченные тренировки" component={FinishedTrainings} />
         </Drawer.Navigator>
       </NavigationContainer>
+      </Root>
     );
   }
 }

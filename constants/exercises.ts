@@ -48,6 +48,10 @@ export const Exercises: IExercise[] = [
     name: 'Разведение гантелей под -45°',
     groups: [muscleGroups.chest]
   }, {
+    key: 'otjimaniya-na-brusyah',
+    name: 'Отжимания на брусьях',
+    groups: [muscleGroups.chest]
+  },  {
     key: 'svedenie-ruk-krossover',
     name: 'Сведение рук на кроссовере',
     groups: [muscleGroups.chest]
@@ -67,8 +71,16 @@ export const Exercises: IExercise[] = [
     name: 'Жим гантелей над головой',
     groups: [muscleGroups.deltas]
   }, {
+    key: 'razvedenie-ganteley-storoni',
+    name: 'Разведение гантелей в стороны',
+    groups: [muscleGroups.deltas]
+  }, {
     key: 'razvedenie-ruk-batterfly',
     name: 'Разведение рук на баттерфляй',
+    groups: [muscleGroups.deltas]
+  }, {
+    key: 'obr-razvedenie-ruk-krossover',
+    name: 'Обратное разведение рук на кроссовере',
     groups: [muscleGroups.deltas]
   },
 
@@ -128,6 +140,10 @@ export const Exercises: IExercise[] = [
     key: 'vipadi-v-dvijenii',
     name: 'Выпады в движении',
     groups: [muscleGroups.legs]
+  }, {
+    key: 'giperekstenziya',
+    name: 'Гиперэкстензия',
+    groups: [muscleGroups.legs]
   },
 
   // Спина
@@ -148,8 +164,16 @@ export const Exercises: IExercise[] = [
     name: 'Тяга верхнего блока',
     groups: [muscleGroups.back]
   }, {
+    key: 'tyaga-ganteley-leja-skamie-45',
+    name: 'Тяга гантелей лежа на скамье 45°',
+    groups: [muscleGroups.back]
+  }, {
     key: 'tyaga-k-jivotu-na-trenajere',
     name: 'Тяга к животу на тренажере',
+    groups: [muscleGroups.back]
+  }, {
+    key: 'tyaga-k-grudi-na-trenajere',
+    name: 'Тяга к груди на тренажере',
     groups: [muscleGroups.back]
   }, {
     key: 'stanovaja-so-shtangoy',
@@ -161,6 +185,10 @@ export const Exercises: IExercise[] = [
   {
     key: 'frantsuzskiy-zhim',
     name: 'Французский жим',
+    groups: [muscleGroups.hands]
+  }, {
+    key: 'ganteli-biceps-hvat-molot',
+    name: 'Гантели на бицепс хватом молот',
     groups: [muscleGroups.hands]
   }
 ];

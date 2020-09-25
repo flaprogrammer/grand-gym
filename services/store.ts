@@ -62,6 +62,26 @@ export async function saveTrainingResultsDebounced(trainingId: string, results: 
   debounce(saveTrainingResults, 2000)(trainingId, results);
 }
 
+export async function deleteExerciseFromTraining(trainingId: string, exerciseKey: string) {
+  const readyTrainings:ITraining[] = await getReadyTrainings();
+  readyTrainings.forEach(training => {
+    if (training.id === trainingId) {
+      training.exercises = training.exercises.filter(e => e !== exerciseKey);
+    }
+  });
+  await AsyncStorage.setItem(READY_TRAININGS, JSON.stringify(readyTrainings));
+}
+
+export async function addExerciseToTraining(trainingId: string, exerciseKey: string) {
+  const readyTrainings:ITraining[] = await getReadyTrainings();
+  readyTrainings.forEach(training => {
+    if (training.id === trainingId) {
+      training.exercises.push(exerciseKey)
+    }
+  });
+  await AsyncStorage.setItem(READY_TRAININGS, JSON.stringify(readyTrainings));
+}
+
 export async function finishTraining(trainingId: string) {
   let readyTraining:ITraining | null = await getTrainingById(trainingId);
   let finishedTrainings:ITraining[] = await getFinishedTrainings();

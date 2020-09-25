@@ -2,7 +2,7 @@ import React from 'react';
 import { AppLoading } from 'expo';
 import { Container, Header, Title, Content, Footer, FooterTab,
   Button, Left, Right, Body, Icon, Text, Card, CardItem,
-  ListItem, CheckBox, List as NativeList, Form, Item, Input, Label, View
+  ActionSheet, CheckBox, List as NativeList, Form, Item, Input, Label, View
  } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { List } from 'immutable';
@@ -11,7 +11,6 @@ import SideBar from './SideBar';
 import * as store from '../services/store';
 import { ITraining } from '../constants/trainings';
 import {Alert, StyleSheet} from "react-native";
-import moment from "moment";
 
 
 export default class Training extends React.Component<any, any> {
@@ -26,6 +25,8 @@ export default class Training extends React.Component<any, any> {
     this.onChangeText = this.onChangeText.bind(this);
     this.onChangeWeight = this.onChangeWeight.bind(this);
     this.finishTraining = this.finishTraining.bind(this);
+    this.removeExercise = this.removeExercise.bind(this);
+    this.addExercise = this.addExercise.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +42,40 @@ export default class Training extends React.Component<any, any> {
     // @ts-ignore
     const userWeight = training.userWeight || null;
     this.setState({ training, results, userWeight });
+  }
+
+  async removeExercise(key: string) {
+    const exercise = Exercises.find(e => e.key === key);
+    const exerciseName = exercise ? exercise.name : 'не найдено';
+    Alert.alert(
+      `Удалить?`,
+      `Упражнение ${exerciseName}?`,
+      [
+        {
+          text: "Отмена",
+          style: "cancel"
+        },
+        { text: "OK", onPress: async () => {
+            await store.deleteExerciseFromTraining(this.state.training.id, key);
+            this.onPageFocus();
+          }
+        }
+      ]
+    );
+  }
+
+  async addExercise() {
+    ActionSheet.show(
+      {
+        options: Exercises.map(e => e.name),
+        title: "Выберите упражнение"
+      },
+      async (index) => {
+        if (!Exercises[index]) return;
+        await store.addExerciseToTraining(this.state.training.id, Exercises[index].key)
+        this.onPageFocus();
+      }
+    )
   }
 
   onChangeText(exerciseKey: string, index: number, field: string, value: string) {
@@ -107,6 +142,9 @@ export default class Training extends React.Component<any, any> {
               <Card key={exerciseKey} style={styles.card}>
                 <View style={styles.exerciseTitle}>
                   <Text style={styles.exerciseTitleText}>{exercise.name}</Text>
+                  <View style={styles.removeExerciseIcon}>
+                    <Icon name="trash" onPress={() => this.removeExercise(exercise.key)}/>
+                  </View>
                 </View>
                 <Form>
                   <Grid>
@@ -144,6 +182,11 @@ export default class Training extends React.Component<any, any> {
             )
           }) }
           <View style={styles.buttonContainer}>
+            <Button onPress={this.addExercise}>
+              <Text>Добавить упражнение</Text>
+            </Button>
+          </View>
+          <View style={styles.buttonContainer}>
             <Button onPress={this.finishTraining}>
               <Text>Закончить тренировку</Text>
             </Button>
@@ -163,6 +206,13 @@ const styles = StyleSheet.create({
   exerciseTitle: {
     paddingLeft: 15,
     paddingBottom: 15,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  removeExerciseIcon: {
+    marginTop: -3,
+    marginRight: 5
   },
   exerciseTitleText: {
     fontWeight: 'bold'
