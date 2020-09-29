@@ -1,31 +1,38 @@
 import React from "react";
 import { AppRegistry, Image, StatusBar } from "react-native";
-import {
-  Button,
-  Text,
-  Container,
-  List,
-  ListItem,
-  Content,
-  Icon, Left, Body, Title, Right, Header
-} from "native-base";
+import { Container, Content, Text, List, ListItem } from "native-base";
+const routes = ["Собрать тренировку", "Тренировки", "Законченные тренировки"];
+const sidebarImage = require('../assets/images/sidebar-image.jpg');
 
 export default class SideBar extends React.Component<any, any> {
   render() {
     return (
-      <Header>
-        <Left>
-          <Button
-            transparent
-            onPress={() => this.props.navigation.openDrawer()}>
-            <Icon name="menu" />
-          </Button>
-        </Left>
-        <Body>
-          <Title>{this.props.title}</Title>
-        </Body>
-        <Right />
-      </Header>
+      <Container>
+        <Content>
+          <Image
+            source={sidebarImage}
+            style={{
+              height: 100,
+              width: '100%',
+              resizeMode: 'cover',
+              marginBottom: 10
+            }}>
+          </Image>
+          <List
+            dataArray={routes}
+            renderRow={data => {
+              return (
+                <ListItem
+                  key={data}
+                  button
+                  onPress={() => this.props.navigation.navigate(data)}>
+                  <Text>{data}</Text>
+                </ListItem>
+              );
+            }}
+          />
+        </Content>
+      </Container>
     );
   }
 }

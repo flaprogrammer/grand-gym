@@ -13,6 +13,8 @@ import ReadyTrainings from './screens/ReadyTrainings';
 import FinishedTrainings from './screens/FinishedTrainings';
 import Training from './screens/Training';
 
+import SideBar from './screens/SideBar';
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -51,7 +53,7 @@ export default class App extends React.Component<any, any> {
     return (
       <Root>
       <NavigationContainer>
-        <Drawer.Navigator>
+        <Drawer.Navigator drawerContent={props => <SideBar {...props}/>}>
           <Drawer.Screen name="Собрать тренировку" component={BuildTraining} />
           <Drawer.Screen name="Тренировки" component={TrainingsRouter} />
           <Drawer.Screen name="Законченные тренировки" component={FinishedTrainings} />

@@ -7,7 +7,7 @@ import { Container, Header, Title, Content, Footer, FooterTab,
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
-import SideBar from './SideBar';
+import HeaderBar from './HeaderBar';
 import * as store from '../services/store';
 import { ITraining } from '../constants/trainings';
 import {Alert, StyleSheet} from "react-native";
@@ -72,7 +72,7 @@ export default class Training extends React.Component<any, any> {
       },
       async (index) => {
         if (!Exercises[index]) return;
-        await store.addExerciseToTraining(this.state.training.id, Exercises[index].key)
+        await store.addExerciseToTraining(this.state.training.id, Exercises[index].key);
         this.onPageFocus();
       }
     )
@@ -115,7 +115,7 @@ export default class Training extends React.Component<any, any> {
     const results: any = this.state.results;
     return (
       <Container>
-        <SideBar
+        <HeaderBar
           title={this.props.route.name}
           navigation={this.props.navigation}
         />

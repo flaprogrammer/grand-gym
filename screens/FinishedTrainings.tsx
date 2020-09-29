@@ -8,7 +8,7 @@ import {Alert, StyleSheet} from "react-native";
 import { List } from 'immutable';
 import moment from 'moment';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
-import SideBar from './SideBar';
+import HeaderBar from './HeaderBar';
 import * as store from '../services/store';
 import { IFinishedTraining } from '../constants/trainings';
 
@@ -59,7 +59,7 @@ export default class FinishedTrainings extends React.Component<any, any> {
     let trainings: IFinishedTraining[] = this.state.trainings;
     return (
       <Container>
-        <SideBar
+        <HeaderBar
           title={this.props.route.name}
           navigation={this.props.navigation}
         />

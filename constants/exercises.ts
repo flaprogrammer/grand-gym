@@ -124,7 +124,7 @@ export const Exercises: IExercise[] = [
     key: 'rasgibanie-nog-trenajer',
     name: 'Разгибание ног на тренажере',
     groups: [muscleGroups.legs]
-  },  {
+  }, {
     key: 'svedenie-nog-na-trenajere',
     name: 'Сведение ног на тренажере',
     groups: [muscleGroups.legs]
@@ -168,6 +168,10 @@ export const Exercises: IExercise[] = [
     name: 'Тяга гантелей лежа на скамье 45°',
     groups: [muscleGroups.back]
   }, {
+    key: 'tyaga-shtangi-naklon',
+    name: 'Тяга штанги в наклоне',
+    groups: [muscleGroups.back]
+  }, {
     key: 'tyaga-k-jivotu-na-trenajere',
     name: 'Тяга к животу на тренажере',
     groups: [muscleGroups.back]
@@ -189,6 +193,18 @@ export const Exercises: IExercise[] = [
   }, {
     key: 'ganteli-biceps-hvat-molot',
     name: 'Гантели на бицепс хватом молот',
+    groups: [muscleGroups.hands]
+  },  {
+    key: 'ganteli-biceps-hvat-obichniy',
+    name: 'Гантели на бицепс обычным хватом',
+    groups: [muscleGroups.hands]
+  }, {
+    key: 'razgibaniya-ruk-krossover-kanat',
+    name: 'Разгибания рук в кроссовере с канатом',
+    groups: [muscleGroups.hands]
+  }, {
+    key: 'biceps-na-trenajere',
+    name: 'Бицепс на тренажере',
     groups: [muscleGroups.hands]
   }
 ];

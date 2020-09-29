@@ -6,7 +6,7 @@ import { Container, Header, Title, Content, Footer, FooterTab,
  } from 'native-base';
 import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
-import SideBar from './SideBar';
+import HeaderBar from './HeaderBar';
 import * as store from '../services/store';
 
 export default class BuildTraining extends React.Component<any, any> {
@@ -39,7 +39,7 @@ export default class BuildTraining extends React.Component<any, any> {
   render() {
     return (
       <Container>
-        <SideBar
+        <HeaderBar
           title={this.props.route.name}
           navigation={this.props.navigation}
         />

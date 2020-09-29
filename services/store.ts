@@ -89,6 +89,7 @@ export async function finishTraining(trainingId: string) {
     readyTraining.date = new Date();
     finishedTrainings.push(readyTraining);
     await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
+    await deleteTraining(trainingId);
   }
 }
 
