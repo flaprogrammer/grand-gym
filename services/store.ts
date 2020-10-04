@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { ITraining, IFinishedTraining } from '../constants/trainings';
 import { debounce } from 'debounce';
+import moment from 'moment';
 
 
 const READY_TRAININGS = 'readyTrainings';
@@ -96,12 +97,14 @@ export async function finishTraining(trainingId: string) {
 
 // FINISHED TRAININGS
 
-export async function getFinishedTrainings() {
+export async function getFinishedTrainings(reverse = false) {
   const trainingsString: string | null = await AsyncStorage.getItem(FINISHED_TRAININGS);
   if (trainingsString) {
     const trainings = JSON.parse(trainingsString);
     if (trainings && trainings.reverse) {
-      trainings.reverse();
+      if (reverse) {
+        trainings.reverse();
+      }
       return trainings;
     }
   }
@@ -115,15 +118,9 @@ export async function deleteFinishedTraining(date: Date) {
   return await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
 }
 
-export async function getLastExerciseResults(exerciseKey: string) {
-  const finishedTrainings = await getFinishedTrainings();
-  for (let i = 0; i < finishedTrainings.length; i++) {
-    const training: IFinishedTraining = finishedTrainings[i];
-    // @ts-ignore
-    const exerciseResults = training.results[exerciseKey];
-    if (exerciseResults) {
-      return exerciseResults;
-    }
-  }
-  return null;
+export async function sortFinishedTrainings() {
+  let finishedTrainings:IFinishedTraining[] = await getFinishedTrainings();
+  // @ts-ignore
+  finishedTrainings = finishedTrainings.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf());
+  return await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
 }

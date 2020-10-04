@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import * as store from './services/store';
 
 import BuildTraining from './screens/BuildTraining';
 import ReadyTrainings from './screens/ReadyTrainings';
@@ -43,6 +44,8 @@ export default class App extends React.Component<any, any> {
       ...Ionicons.font,
     });
     this.setState({ isReady: true });
+    // migrate 0.2.0 to 0.2.1
+    await store.sortFinishedTrainings();
   }
 
   render() {

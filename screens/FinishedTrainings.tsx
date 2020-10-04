@@ -32,7 +32,7 @@ export default class FinishedTrainings extends React.Component<any, any> {
   }
 
   async onPageFocus() {
-    const trainings:IFinishedTraining[] = await store.getFinishedTrainings();
+    const trainings:IFinishedTraining[] = await store.getFinishedTrainings(true);
     this.setState({ trainings });
   }
 

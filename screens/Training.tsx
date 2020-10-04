@@ -4,6 +4,7 @@ import { Container, Header, Title, Content, Footer, FooterTab,
   Button, Left, Right, Body, Icon, Text, Card, CardItem,
   ActionSheet, CheckBox, List as NativeList, Form, Item, Input, Label, View
  } from 'native-base';
+import moment from 'moment';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
@@ -38,7 +39,7 @@ export default class Training extends React.Component<any, any> {
   }
 
   async onPageFocus() {
-    const finishedTrainings = await store.getFinishedTrainings();
+    const finishedTrainings = await store.getFinishedTrainings(true);
     const training: ITraining | null = await store.getTrainingById(this.props.route.params.id);
     // @ts-ignore
     const results = training.results || {};
@@ -88,7 +89,10 @@ export default class Training extends React.Component<any, any> {
       // @ts-ignore
       const exerciseResults = training.results[exerciseKey];
       if (exerciseResults) {
-        return exerciseResults;
+        return ({
+          results: exerciseResults,
+          date: training.date
+        });
       }
     }
     return null;
@@ -195,13 +199,13 @@ export default class Training extends React.Component<any, any> {
                     </Grid>
                   ))}
                 </Form>
-                {exerciseResults && exerciseResults.length ? (
+                {exerciseResults && exerciseResults.results.length ? (
                   <React.Fragment>
                     <View>
-                      <Text>Результаты в последнюю тренировку:</Text>
+                      <Text>Результаты с {moment(exerciseResults.date).format('DD MMMM YYYY')}</Text>
                     </View>
                     <View>
-                      <Text>{exerciseResults.map((res: any) => `${res.weight} x ${res.amount}`).join(', ')}</Text>
+                      <Text>{exerciseResults.results.map((res: any) => `${res.weight} x ${res.amount}`).join(', ')}</Text>
                     </View>
                   </React.Fragment>
                 ) : null}
