@@ -9,7 +9,7 @@ import { List } from 'immutable';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
 import HeaderBar from './HeaderBar';
 import * as store from '../services/store';
-import { ITraining } from '../constants/trainings';
+import {IFinishedTraining, ITraining} from '../constants/trainings';
 import {Alert, StyleSheet} from "react-native";
 
 
@@ -19,7 +19,8 @@ export default class Training extends React.Component<any, any> {
     this.state = {
       training: null,
       results: {},
-      userWeight: null
+      userWeight: null,
+      finishedTrainings: []
     };
     this.onPageFocus = this.onPageFocus.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
@@ -27,6 +28,7 @@ export default class Training extends React.Component<any, any> {
     this.finishTraining = this.finishTraining.bind(this);
     this.removeExercise = this.removeExercise.bind(this);
     this.addExercise = this.addExercise.bind(this);
+    this.getLastExerciseResults = this.getLastExerciseResults.bind(this);
   }
 
   componentDidMount() {
@@ -36,12 +38,13 @@ export default class Training extends React.Component<any, any> {
   }
 
   async onPageFocus() {
+    const finishedTrainings = await store.getFinishedTrainings();
     const training: ITraining | null = await store.getTrainingById(this.props.route.params.id);
     // @ts-ignore
     const results = training.results || {};
     // @ts-ignore
     const userWeight = training.userWeight || null;
-    this.setState({ training, results, userWeight });
+    this.setState({ training, results, userWeight, finishedTrainings });
   }
 
   async removeExercise(key: string) {
@@ -76,6 +79,19 @@ export default class Training extends React.Component<any, any> {
         this.onPageFocus();
       }
     )
+  }
+
+  getLastExerciseResults(exerciseKey: string) {
+    const finishedTrainings = this.state.finishedTrainings;
+    for (let i = 0; i < finishedTrainings.length; i++) {
+      const training: IFinishedTraining = finishedTrainings[i];
+      // @ts-ignore
+      const exerciseResults = training.results[exerciseKey];
+      if (exerciseResults) {
+        return exerciseResults;
+      }
+    }
+    return null;
   }
 
   onChangeText(exerciseKey: string, index: number, field: string, value: string) {
@@ -138,6 +154,7 @@ export default class Training extends React.Component<any, any> {
           { !training ? null : training.exercises.map(exerciseKey => {
             const exercise = Exercises.find(e => e.key === exerciseKey);
             if (!exercise) return null;
+            const exerciseResults = this.getLastExerciseResults(exerciseKey);
             return (
               <Card key={exerciseKey} style={styles.card}>
                 <View style={styles.exerciseTitle}>
@@ -178,6 +195,16 @@ export default class Training extends React.Component<any, any> {
                     </Grid>
                   ))}
                 </Form>
+                {exerciseResults && exerciseResults.length ? (
+                  <React.Fragment>
+                    <View>
+                      <Text>Результаты в последнюю тренировку:</Text>
+                    </View>
+                    <View>
+                      <Text>{exerciseResults.map((res: any) => `${res.weight} x ${res.amount}`).join(', ')}</Text>
+                    </View>
+                  </React.Fragment>
+                ) : null}
               </Card>
             )
           }) }

@@ -136,6 +136,10 @@ export const Exercises: IExercise[] = [
     key: 'ikri-na-trenajere',
     name: 'Икры на тренажере',
     groups: [muscleGroups.legs]
+  },  {
+    key: 'ikri-na-gakk-trenajere',
+    name: 'Икры на Гакк тренажере',
+    groups: [muscleGroups.legs]
   }, {
     key: 'vipadi-v-dvijenii',
     name: 'Выпады в движении',
@@ -194,9 +198,13 @@ export const Exercises: IExercise[] = [
     key: 'ganteli-biceps-hvat-molot',
     name: 'Гантели на бицепс хватом молот',
     groups: [muscleGroups.hands]
-  },  {
+  }, {
     key: 'ganteli-biceps-hvat-obichniy',
     name: 'Гантели на бицепс обычным хватом',
+    groups: [muscleGroups.hands]
+  },  {
+    key: 'shtanga-biceps',
+    name: 'Штанга на бицепс',
     groups: [muscleGroups.hands]
   }, {
     key: 'razgibaniya-ruk-krossover-kanat',

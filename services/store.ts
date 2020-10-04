@@ -99,7 +99,11 @@ export async function finishTraining(trainingId: string) {
 export async function getFinishedTrainings() {
   const trainingsString: string | null = await AsyncStorage.getItem(FINISHED_TRAININGS);
   if (trainingsString) {
-    return JSON.parse(trainingsString);
+    const trainings = JSON.parse(trainingsString);
+    if (trainings && trainings.reverse) {
+      trainings.reverse();
+      return trainings;
+    }
   }
   else return [];
 }
@@ -109,4 +113,17 @@ export async function deleteFinishedTraining(date: Date) {
   finishedTrainings = finishedTrainings || [];
   finishedTrainings = finishedTrainings.filter(training => training.date !== date);
   return await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
+}
+
+export async function getLastExerciseResults(exerciseKey: string) {
+  const finishedTrainings = await getFinishedTrainings();
+  for (let i = 0; i < finishedTrainings.length; i++) {
+    const training: IFinishedTraining = finishedTrainings[i];
+    // @ts-ignore
+    const exerciseResults = training.results[exerciseKey];
+    if (exerciseResults) {
+      return exerciseResults;
+    }
+  }
+  return null;
 }
