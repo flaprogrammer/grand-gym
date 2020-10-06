@@ -159,13 +159,21 @@ export const Exercises: IExercise[] = [
     key: 'podtyagivaniya-obratnim-hvatom',
     name: 'Подтягивания обратным хватом',
     groups: [muscleGroups.back]
-  },  {
+  }, {
     key: 'podtyagivaniya-gravotron',
     name: 'Подтягивания на гравитроне',
     groups: [muscleGroups.back]
   }, {
+    key: 'podtyagivaniya-gravotron-obratnim',
+    name: 'Подтягивания на гравитроне обратным хватом',
+    groups: [muscleGroups.back]
+  }, {
     key: 'tyaga-verhnego-bloka',
     name: 'Тяга верхнего блока',
+    groups: [muscleGroups.back]
+  },  {
+    key: 'tyaga-verhnego-bloka-obratnim',
+    name: 'Тяга верхнего блока обратным хватом',
     groups: [muscleGroups.back]
   }, {
     key: 'tyaga-ganteley-leja-skamie-45',
@@ -174,6 +182,10 @@ export const Exercises: IExercise[] = [
   }, {
     key: 'tyaga-shtangi-naklon',
     name: 'Тяга штанги в наклоне',
+    groups: [muscleGroups.back]
+  }, {
+    key: 'tyaga-shtangi-naklon-obratnim',
+    name: 'Тяга штанги в наклоне обратным хватом',
     groups: [muscleGroups.back]
   }, {
     key: 'tyaga-k-jivotu-na-trenajere',
@@ -195,6 +207,10 @@ export const Exercises: IExercise[] = [
     name: 'Французский жим',
     groups: [muscleGroups.hands]
   }, {
+    key: 'razgibanie-ruk-ganteli-iz-za-golovy',
+    name: 'Разгибание рук с гантелями из-за головы',
+    groups: [muscleGroups.hands]
+  }, {
     key: 'ganteli-biceps-hvat-molot',
     name: 'Гантели на бицепс хватом молот',
     groups: [muscleGroups.hands]
@@ -213,6 +229,14 @@ export const Exercises: IExercise[] = [
   }, {
     key: 'biceps-na-trenajere',
     name: 'Бицепс на тренажере',
+    groups: [muscleGroups.hands]
+  }, {
+    key: 'sgibanie-kistey-s-gantelyami',
+    name: 'Сгибание кистей с гантелями',
+    groups: [muscleGroups.hands]
+  }, {
+    key: 'razgibanie-kistey-s-gantelyami',
+    name: 'Разгибание кистей с гантелями ',
     groups: [muscleGroups.hands]
   }
 ];
