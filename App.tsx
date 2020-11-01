@@ -45,7 +45,7 @@ export default class App extends React.Component<any, any> {
     });
     this.setState({ isReady: true });
     // migrate 0.2.0 to 0.2.1
-    await store.sortFinishedTrainings();
+    //await store.sortFinishedTrainings();
   }
 
   render() {

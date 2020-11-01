@@ -53,11 +53,19 @@ export const Exercises: IExercise[] = [
     groups: [muscleGroups.chest]
   },  {
     key: 'svedenie-ruk-krossover',
-    name: 'Сведение рук на кроссовере',
+    name: 'Сведение рук на кроссовере перед собой',
+    groups: [muscleGroups.chest]
+  }, {
+    key: 'svedenie-ruk-krossover-vniz',
+    name: 'Сведение рук на кроссовере вниз',
     groups: [muscleGroups.chest]
   }, {
     key: 'svedenie-ruk-batterfly',
     name: 'Сведение рук на баттерфляй',
+    groups: [muscleGroups.chest]
+  }, {
+    key: 'zhim-trenajer-na-grud',
+    name: 'Жим на тренажере на грудь',
     groups: [muscleGroups.chest]
   },
 
@@ -219,6 +227,10 @@ export const Exercises: IExercise[] = [
     name: 'Гантели на бицепс обычным хватом',
     groups: [muscleGroups.hands]
   },  {
+    key: 'zhim-arnolda',
+    name: 'Жим Арнольда',
+    groups: [muscleGroups.hands]
+  }, {
     key: 'shtanga-biceps',
     name: 'Штанга на бицепс',
     groups: [muscleGroups.hands]
