@@ -10,6 +10,7 @@ import moment from 'moment';
 import { muscleGroups, Exercises, IExercise } from '../constants/exercises';
 import HeaderBar from './HeaderBar';
 import * as store from '../services/store';
+import * as fileSystem from '../services/fileSystem';
 import { IFinishedTraining } from '../constants/trainings';
 
 moment.locale('ru');
@@ -23,6 +24,8 @@ export default class FinishedTrainings extends React.Component<any, any> {
 
     this.deleteTraining = this.deleteTraining.bind(this);
     this.onPageFocus = this.onPageFocus.bind(this);
+    this.writeToFile = this.writeToFile.bind(this);
+    this.readFromFile = this.readFromFile.bind(this);
   }
 
   async componentDidMount() {
@@ -54,6 +57,15 @@ export default class FinishedTrainings extends React.Component<any, any> {
     );
   }
 
+  async writeToFile() {
+    await fileSystem.exportFinishedTrainingsToFile();
+  }
+
+  async readFromFile() {
+    await fileSystem.importFinishedTrainingsFromFile();
+    await this.onPageFocus();
+  }
+
   render() {
 
     let trainings: IFinishedTraining[] = this.state.trainings;
@@ -64,25 +76,34 @@ export default class FinishedTrainings extends React.Component<any, any> {
           navigation={this.props.navigation}
         />
         <Content>
-              {!trainings || !trainings.length ? (
-                <Card>
-                  <Body>
-                    <Text>Список тренировок пуст</Text>
-                  </Body>
-                </Card>
-              ) :
-              trainings.map((training: IFinishedTraining) => {
+          {!trainings || !trainings.length ? (
+              <Card>
+                <Body>
+                  <Text>Список тренировок пуст</Text>
+                </Body>
+              </Card>
+            ) :
+            <View>
+              <Card style={styles.buttonsCard}>
+                <Button style={styles.button}>
+                  <Text onPress={() => this.writeToFile()}>Экпортировать</Text>
+                </Button>
+                <Button style={styles.button}>
+                  <Text onPress={() => this.readFromFile()}>Импортировать</Text>
+                </Button>
+              </Card>
+              {trainings.map((training: IFinishedTraining) => {
                 const trainingDate = moment(training.date).format('DD MMMM YYYY, HH:mm');
                 return (
                   <Card key={training.id}>
                     <CardItem>
                       <Body>
-                      <View>
-                        <Text>{trainingDate}</Text>
-                      </View>
-                      <View>
-                        {training.userWeight && <Text>{training.userWeight} кг</Text>}
-                      </View>
+                        <View>
+                          <Text>{trainingDate}</Text>
+                        </View>
+                        <View>
+                          {training.userWeight && <Text>{training.userWeight} кг</Text>}
+                        </View>
                       </Body>
                     </CardItem>
                     <CardItem>
@@ -111,6 +132,8 @@ export default class FinishedTrainings extends React.Component<any, any> {
                   </Card>
                 )
               })}
+            </View>
+          }
         </Content>
       </Container>
     );
@@ -118,6 +141,13 @@ export default class FinishedTrainings extends React.Component<any, any> {
 }
 
 const styles = StyleSheet.create({
+  buttonsCard: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  button: {
+    margin: 5
+  },
   card: {
     paddingHorizontal: 5,
     paddingVertical: 10

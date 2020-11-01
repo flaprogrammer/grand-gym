@@ -124,3 +124,15 @@ export async function sortFinishedTrainings() {
   finishedTrainings = finishedTrainings.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf());
   return await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
 }
+
+export async function mergeImportedTrainings(importedTrainings: IFinishedTraining[]) {
+  const finishedTrainings:IFinishedTraining[] = await getFinishedTrainings();
+  const finishedTrainingsIds:string[] = finishedTrainings.map((t: IFinishedTraining) => t.id);
+  importedTrainings.forEach((training: IFinishedTraining) => {
+    if (!finishedTrainingsIds.includes(training.id)) {
+      finishedTrainings.push(training);
+    }
+  });
+  await AsyncStorage.setItem(FINISHED_TRAININGS, JSON.stringify(finishedTrainings));
+  await sortFinishedTrainings();
+}
